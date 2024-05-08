@@ -33,7 +33,8 @@ bird_rect = bird_surface.get_rect(center = (100, SCREEN_HEIGHT//2))
 
 # Pipe list and timer 
 pipe_list = [] 
-SPAWNPIPE = pygame.USEREVENT pygame.time.set_timer(SPAWNPIPE, 1200) 
+SPAWNPIPE = pygame.USEREVENT 
+pygame.time.set_timer(SPAWNPIPE, 1200) 
 
 def create_pipe(): 
  random_pipe_pos = random.choice([300, 400, 500]) 
@@ -41,39 +42,37 @@ def create_pipe():
  top_pipe = pipe_surface.get_rect(midbottom = (500, random_pipe_pos - 150)) 
  return bottom_pipe, top_pipe 
  def move_pipes(pipes): 
- for pipe in pipes: 
-  pipe.centerx += 
-  GAME_SPEED 
-  visible_pipes = [pipe for pipe in pipes if pipe.right > 0] 
-  return visible_pipes 
+    for pipe in pipes: 
+        pipe.centerx += GAME_SPEED 
+    visible_pipes = pipe 
+    for pipe in pipes:
+        if pipe.right > 0 : 
+            return visible_pipes
   
-  def draw_pipes(pipes): 
+def draw_pipes(pipes): 
   for pipe in pipes: 
-  if pipe.bottom >= 
-  SCREEN_HEIGHT: 
-   screen.blit(pipe_surface, pipe) else: flip_pipe = pygame.transform.flip(pipe_surface, False, True) screen.blit(flip_pipe, pipe) 
+    if pipe.bottom >= SCREEN_HEIGHT: 
+        screen.blit(pipe_surface, pipe) 
+    else: flip_pipe = pygame.transform.flip(pipe_surface, False, True) 
+    screen.blit(flip_pipe, pipe) 
    
 # Main game loop 
 while True: 
-for event in pygame.event.get(): 
-if event.type == 
-pygame.QUIT: 
- pygame.quit() 
- sys.exit() 
- if event.type == 
- pygame.KEYDOWN: 
- if event.key == 
- pygame.K_SPACE: 
-  BIRD_MOVEMENT = 0 
-  BIRD_MOVEMENT -= 10 
-  if event.type == SPAWNPIPE: 
+    for event in pygame.event.get(): 
+        if event.type == pygame.QUIT: 
+            pygame.quit() 
+            sys.exit() 
+if event.type == pygame.KEYDOWN: 
+    if event.key == pygame.K_SPACE: BIRD_MOVEMENT = 0 
+BIRD_MOVEMENT -= 10 
+if event.type == SPAWNPIPE: 
    pipe_list.extend(create_pipe()) 
    screen.blit(bg_surface, (0, 0)) 
    
 # Bird 
 BIRD_MOVEMENT += GRAVITY 
-bird_rect.centery += 
-BIRD_MOVEMENT screen.blit(bird_surface, bird_rect) 
+bird_rect.centery += BIRD_MOVEMENT 
+screen.blit(bird_surface, bird_rect) 
 
 # Pipes 
 pipe_list = move_pipes(pipe_list) 
@@ -81,4 +80,5 @@ draw_pipes(pipe_list)
 
 # Floor 
 screen.blit(floor_surface, (0, SCREEN_HEIGHT - 100)) 
-pygame.display.update() clock.tick(120)
+pygame.display.update() 
+clock.tick(120)
